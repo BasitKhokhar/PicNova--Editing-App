@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model enhancedimages {
+  id              Int            @id @default(autoincrement())
+  user_id         Int
+  original_id     Int?
+  model_used      String         @db.VarChar(50)
+  url             String         @db.Text
+  enhanced_at     DateTime?      @default(now()) @db.DateTime(0)
+  prompt_used     String?        @db.Text
+  users           users          @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Restrict, map: "enhancedimages_ibfk_1")
+  originalimages  originalimages?@relation(fields: [original_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "enhancedimages_ibfk_2")
+
+  @@index([original_id], map: "original_id")
+  @@index([user_id], map: "user_id")
+}
+
+model logoimage {
+  id        Int    @id @default(autoincrement())
+  image_url String @db.VarChar(255)
+}
+
+model originalimages {
+  id              Int            @id @default(autoincrement())
+  user_id         Int
+  url             String         @db.Text
+  uploaded_at     DateTime?      @default(now()) @db.DateTime(0)
+  enhancedimages   enhancedimages[]
+  users           users          @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Restrict, map: "originalimages_ibfk_1")
+
+  @@index([user_id], map: "user_id")
+}
+
+
+model picsaifeatures {
+  id                Int               @id @default(autoincrement())
+  name              String            @db.VarChar(100)
+  description       String            @db.Text
+  image_url         String            @db.Text
+  model_name        String            @db.VarChar(200)
+  created_at        DateTime          @default(now()) @db.Timestamp(0)
+  picsaisubfeatures  picsaisubfeatures[]
+}
+
+model picsaisubfeatures {
+  id               Int              @id @default(autoincrement())
+  feature_id       Int
+  image_url        String           @db.Text
+  prompt           String?          @db.Text
+  created_at       DateTime         @default(now()) @db.Timestamp(0)
+  picsaifeatures    picsaifeatures    @relation(fields: [feature_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "picsaisubfeature_ibfk_1")
+
+  @@index([feature_id], map: "feature_id")
+}
+
+model sliderimages {
+  id              Int    @id @default(autoincrement())
+  sliderimage_url String @db.VarChar(255)
+}
+
+model userimages {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  image_url  String   @db.VarChar(512)
+  created_at DateTime @default(now()) @db.Timestamp(0)
+  users      users    @relation(fields: [user_id], references: [user_id], onDelete: Cascade, map: "userimage_ibfk_1")
+
+  @@index([user_id], map: "user_id")
+}
+
+model users {
+  user_id         Int              @id @default(autoincrement())
+  name            String           @db.VarChar(100)
+  email           String           @unique(map: "email") @db.VarChar(100)
+  password        String           @db.VarChar(255)
+  phone           String?          @db.VarChar(20)
+  created_at DateTime @default(now()) @db.DateTime(0)
+  enhancedimages   enhancedimages[]
+  originalimages  originalimages[]
+  userimages       userimages[]
+}
