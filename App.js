@@ -47,9 +47,10 @@ const MainLayout = ({ navigation, children, currentScreen }) => {
       try {
         const response = await fetch(`${API_BASE_URL}/content/logo_image`);
         const data = await response.json();
-        if (data.length > 0) {
-          setLogo(data[0].image_url);
-        }
+        setLogo(data.image_url);
+        // if (data.length > 0) {
+        //   setLogo(data[0].image_url);
+        // }
       } catch (error) {
         console.error("Error fetching logo:", error);
       }

@@ -5,12 +5,15 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from "@react-navigation/native";
 import SocialIconsRow from "./SocialIconsRow";
 import Loader from "../Loader/Loader";
+import { colors } from "../theme/colors"; // Assuming you have a colors.js file for consistent styling
 import Constants from 'expo-constants';
 
 const API_BASE_URL = Constants.expoConfig.extra.API_BASE_URL;
 
 const UserScreen = () => {
   const [userData, setUserData] = useState(null);
+  const [paymnetImgBtndata, setPaymnetImageBtnData] = useState(null);
+
   const [userImage, setUserImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -19,6 +22,12 @@ const UserScreen = () => {
 
   const fetchUserData = async () => {
     try {
+      const Paymentimgresponse = await fetch(`${API_BASE_URL}/content/paymentbtnimage`);
+      if (!Paymentimgresponse.ok) throw new Error(`HTTP Error: ${Paymentimgresponse.status}`);
+      const PaymentImagedata = await Paymentimgresponse.json();
+      setPaymnetImageBtnData(PaymentImagedata);
+      console.log("Payment Image Data:", PaymentImagedata);
+
       const storedUserId = await AsyncStorage.getItem("userId");
       console.log("User ID in UserScreen is:", storedUserId);
       if (storedUserId) {
@@ -95,16 +104,33 @@ const UserScreen = () => {
 
 
             </View>
+            <View>
+              {paymnetImgBtndata && (
+                <TouchableOpacity
+                  style={styles.cardButton}
+                  onPress={() => navigation.navigate('AccountDetail', { userData })}
+                  activeOpacity={0.8}
+                >
+                  <Image
+                    source={{ uri: paymnetImgBtndata.sliderimage_url }} // ensure the key is correct
+                    style={styles.cardImage}
+                    resizeMode="cover"
+                  />
+                </TouchableOpacity>
+              )}
+
+            </View>
+
 
             <View style={styles.sectionHeader}>
               <Text style={styles.heading}>General</Text>
               <View style={styles.line} />
             </View>
-            
+
             <TouchableOpacity style={styles.section} onPress={() => navigation.navigate('AccountDetail', { userData })}>
               <View style={styles.leftContent}>
                 <Icon name="person" size={24} color="#555" style={styles.icon} />
-                <Text style={styles.sectionText}>Account Detail</Text>
+                <Text style={styles.sectionText}>Personal Info</Text>
               </View>
               <View><Icon name="chevron-right" size={24} color="#888" /></View>
             </TouchableOpacity>
@@ -112,7 +138,7 @@ const UserScreen = () => {
             <TouchableOpacity style={styles.section} onPress={() => navigation.navigate('AccountDetail', { userData })}>
               <View style={styles.leftContent}>
                 <Icon name="person" size={24} color="#555" style={styles.icon} />
-                <Text style={styles.sectionText}>Account Detail</Text>
+                <Text style={styles.sectionText}>Payment methods</Text>
               </View>
               <View><Icon name="chevron-right" size={24} color="#888" /></View>
             </TouchableOpacity>
@@ -120,7 +146,7 @@ const UserScreen = () => {
             <TouchableOpacity style={styles.section} onPress={() => navigation.navigate('AccountDetail', { userData })}>
               <View style={styles.leftContent}>
                 <Icon name="person" size={24} color="#555" style={styles.icon} />
-                <Text style={styles.sectionText}>Account Detail</Text>
+                <Text style={styles.sectionText}>Security</Text>
               </View>
               <View><Icon name="chevron-right" size={24} color="#888" /></View>
             </TouchableOpacity>
@@ -128,10 +154,10 @@ const UserScreen = () => {
               <Text style={styles.heading}>About</Text>
               <View style={styles.line} />
             </View>
-           <TouchableOpacity style={styles.section} onPress={() => navigation.navigate('about', { userData })}>
+            <TouchableOpacity style={styles.section} onPress={() => navigation.navigate('about', { userData })}>
               <View style={styles.leftContent}>
                 <Icon name="info" size={24} color="#555" style={styles.icon} />
-                <Text style={styles.sectionText}>About</Text>
+                <Text style={styles.sectionText}>About PicNova-AI</Text>
               </View>
               <View><Icon name="chevron-right" size={24} color="#888" /></View>
             </TouchableOpacity>
@@ -140,6 +166,14 @@ const UserScreen = () => {
               <View style={styles.leftContent}>
                 <Icon name="support-agent" size={24} color="#555" style={styles.icon} />
                 <Text style={styles.sectionText}>Customer Support</Text>
+              </View>
+              <View><Icon name="chevron-right" size={24} color="#888" /></View>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.section} onPress={() => navigation.navigate('CustomerSupport', { userData })}>
+              <View style={styles.leftContent}>
+                <Icon name="support-agent" size={24} color="#555" style={styles.icon} />
+                <Text style={styles.sectionText}>Privacy Policy</Text>
               </View>
               <View><Icon name="chevron-right" size={24} color="#888" /></View>
             </TouchableOpacity>
@@ -154,10 +188,10 @@ const UserScreen = () => {
 
             <TouchableOpacity style={styles.section} onPress={() => navigation.navigate('Logout', { userData })}>
               <View style={styles.leftContent}>
-                <Icon name="logout" size={24} color="#555" style={styles.icon} />
-                <Text style={styles.sectionText}>Logout </Text>
+                <Icon name="logout" size={24} color="red" style={styles.icon} />
+                <Text style={styles.logoutText} color="red">Logout </Text>
               </View>
-              <View><Icon name="chevron-right" size={24} color="#888" /></View>
+              <View><Icon name="chevron-right" size={24} color="red" /></View>
             </TouchableOpacity>
 
 
@@ -198,14 +232,14 @@ const UserScreen = () => {
 
 const styles = StyleSheet.create({
   maincontainer: {
-    backgroundColor: '#8b3dff',
-    paddingTop: 30,
+    backgroundColor: colors.primary,
+    paddingTop: 50,
     width: '100%',
     height: '100%',
   },
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.background,
     padding: 16,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30
@@ -223,12 +257,32 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
+  imageContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    overflow: "hidden",
+    borderWidth: 2,
+    borderColor: colors.primary,
+  },
+  profileImage: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 50
+  },
+  defaultProfileCircle: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: colors.primary,
+    backgroundColor: "#fff"
+  },
   header: {
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
-    marginTop: 15,
-    marginBottom: 50,
+    marginVertical: 20,
     // justifyContent: "space-between",
     width: "100%",
     borderRadius: 10,
@@ -241,13 +295,34 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#8b3dff"
+    color: colors.primary
   },
   email: {
     fontSize: 14,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     color: "#333"
   },
+  cardButton: {
+    width: '100%',
+    height: 120,
+    borderRadius: 16,
+    overflow: 'hidden',
+    backgroundColor: colors.background,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  cardImage: {
+    width: '100%',
+    height: '100%',
+  },
+
+
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -256,13 +331,13 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#8b3dff',
+    color: colors.primary,
     marginRight: 8,
   },
   line: {
     flex: 1,
     height: 2,
-    backgroundColor: '#8b3dff',
+    backgroundColor: colors.primary,
   },
   section: {
     display: 'flex',
@@ -279,8 +354,14 @@ const styles = StyleSheet.create({
   },
 
   sectionText: {
-    fontSize: 20,
+    fontSize: 18,
+    fontWeight: 'bold',
     color: '#333',
+  },
+  logoutText: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: 'red',
   },
   // section: {
   //   width: "100%",
@@ -304,25 +385,8 @@ const styles = StyleSheet.create({
   iconscontainer: {
     display: 'flex',
   },
-  imageContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 50,
-    overflow: "hidden"
-  },
-  profileImage: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 50
-  },
-  defaultProfileCircle: {
-    width: 50,
-    height: 50,
-    borderRadius: 50,
-    borderWidth: 2,
-    borderColor: "#000",
-    backgroundColor: "#fff"
-  }
+
+
 });
 
 export default UserScreen;
