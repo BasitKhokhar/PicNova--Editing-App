@@ -46,7 +46,7 @@ const PromptInputComponent = ({ defaultModel }) => {
           userId: parseInt(userId),
           modelUsed: modelUsed,
           prompt: prompt.trim(),
-          imageUrl: '', // optional for prompt-only
+          imageUrl: '',
         }),
       });
 
@@ -113,7 +113,7 @@ const PromptInputComponent = ({ defaultModel }) => {
 
       {imageUrl && (
         <View style={styles.imageSection}>
-          {/* ✖ Close Icon */}
+          {/*  Close Icon */}
           <TouchableOpacity style={styles.closeIcon} onPress={handleRemoveImage}>
             <Icon name="close" size={26} color="#fff" />
           </TouchableOpacity>

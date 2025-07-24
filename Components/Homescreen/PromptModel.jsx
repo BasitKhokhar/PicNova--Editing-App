@@ -18,6 +18,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagesComparisonSlider from '../Sliders/ImagesComparisonslider';
+
 const API_BASE_URL = Constants.expoConfig.extra.API_BASE_URL;
 
 const PromptEnhanceModal = ({ visible, onClose, selectedImage, modeldetails }) => {
@@ -45,7 +46,7 @@ const PromptEnhanceModal = ({ visible, onClose, selectedImage, modeldetails }) =
       const storageRef = ref(getStorage(app), `PicNovaPromptOriginal/${filename}`);
       const uploadTask = await uploadBytesResumable(storageRef, blob);
       const originalUrl = await getDownloadURL(uploadTask.ref);
-      console.log("data passing from Propmt model to bakcend ");
+
       const replicateRes = await fetch(`${API_BASE_URL}/replicate/enhance`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -96,12 +97,19 @@ const PromptEnhanceModal = ({ visible, onClose, selectedImage, modeldetails }) =
             <Icon name="close" size={24} color="#fff" />
           </TouchableOpacity>
 
-          {/* {selectedImage && (
-            <Image source={{ uri: selectedImage.uri }} style={styles.image} />
-          )} */}
-          {!enhancedImage && selectedImage?.uri && (
-            <Image source={{ uri: selectedImage.uri }} style={styles.image} />
-          )}
+          <View style={styles.imageContainer}>
+            {!enhancedImage && selectedImage?.uri && (
+              <Image source={{ uri: selectedImage.uri }} style={styles.image} />
+            )}
+            {enhancedImage && selectedImage?.uri && (
+              <View style={styles.sliderWrapper}>
+                <ImagesComparisonSlider
+                  originalImageUri={selectedImage.uri}
+                  enhancedImageUri={enhancedImage}
+                />
+              </View>
+            )}
+          </View>
 
           <TextInput
             style={styles.input}
@@ -119,27 +127,11 @@ const PromptEnhanceModal = ({ visible, onClose, selectedImage, modeldetails }) =
             </TouchableOpacity>
           )}
 
-          {enhancedImage && selectedImage?.uri && (
-            <>
-              <View style={styles.sliderWrapper}>
-                <ImagesComparisonSlider
-                  originalImageUri={selectedImage.uri}
-                  enhancedImageUri={enhancedImage}
-                />
-              </View>
-              <TouchableOpacity style={styles.downloadButton} onPress={downloadImage}>
-                <Text style={styles.downloadbtnText}>Download</Text>
-              </TouchableOpacity>
-            </>
+          {enhancedImage && (
+            <TouchableOpacity style={styles.downloadButton} onPress={downloadImage}>
+              <Text style={styles.downloadbtnText}>Download</Text>
+            </TouchableOpacity>
           )}
-          {/* {enhancedImage && (
-            <>
-              <Image source={{ uri: enhancedImage }} style={styles.image} />
-              <TouchableOpacity style={styles.downloadButton} onPress={downloadImage}>
-                <Text style={styles.enhanceText}>Download</Text>
-              </TouchableOpacity>
-            </>
-          )} */}
         </View>
       </View>
     </Modal>
@@ -155,7 +147,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: '90%',
-    height: '60%',
+    height: '65%',
     backgroundColor: '#8b3dff',
     borderRadius: 20,
     padding: 20,
@@ -169,15 +161,27 @@ const styles = StyleSheet.create({
     zIndex: 10,
     padding: 5,
     backgroundColor: 'black',
-    borderRadius: 50
+    borderRadius: 50,
+  },
+  imageContainer: {
+    width: '100%',
+    height: 300,
+    marginBottom: 15,
+    marginTop:20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   image: {
-    marginTop:30,
     width: '100%',
-    height: '70%',
+    height: '100%',
     resizeMode: 'contain',
-    marginVertical: 10,
     borderRadius: 10,
+  },
+  sliderWrapper: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 12,
+    overflow: 'hidden',
   },
   input: {
     backgroundColor: '#222',
@@ -185,15 +189,15 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 10,
     padding: 12,
-    // marginBottom: 14,
+    marginBottom: 10,
   },
   enhanceButton: {
     backgroundColor: 'black',
     padding: 12,
     borderRadius: 25,
-    marginTop: 10,
     width: '70%',
     alignItems: 'center',
+    marginBottom: 10,
   },
   enhanceText: {
     color: '#fff',
@@ -203,28 +207,16 @@ const styles = StyleSheet.create({
   downloadButton: {
     backgroundColor: '#FFFFFF',
     color: 'black',
-    borderColor: 'black',
     padding: 12,
     borderRadius: 25,
-    marginTop: 10,
     width: '70%',
     alignItems: 'center',
+    marginTop: 5,
   },
   downloadbtnText: {
     color: 'black',
     fontWeight: '600',
     fontSize: 16,
-  },
-  sliderWrapper: {
-    width: '100%',
-    height: 300,
-    marginBottom: 15,
-  },
-  slider: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 12,
-    overflow: 'hidden',
   },
 });
 

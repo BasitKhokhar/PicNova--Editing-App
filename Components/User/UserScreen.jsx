@@ -321,8 +321,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-
-
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -352,7 +350,6 @@ const styles = StyleSheet.create({
     gap: 10,
     alignItems: 'center',
   },
-
   sectionText: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -363,17 +360,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: 'red',
   },
-  // section: {
-  //   width: "100%",
-  //   paddingVertical: 15,
-  //   borderBottomWidth: 1,
-  //   borderBottomColor: "#ddd",
-  //   alignItems: "flex-start"
-  // },
-  // sectionText: {
-  //   fontSize: 18,
-  //   color: "#333"
-  // },
   logout: {
     borderBottomWidth: 0
   },
@@ -385,8 +371,6 @@ const styles = StyleSheet.create({
   iconscontainer: {
     display: 'flex',
   },
-
-
 });
 
 export default UserScreen;

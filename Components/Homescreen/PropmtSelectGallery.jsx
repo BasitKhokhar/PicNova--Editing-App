@@ -55,8 +55,6 @@ const PromptSelectGallery = () => {
 
 const styles = StyleSheet.create({
   container: {
-   
-    // paddingHorizontal: 20,
     backgroundColor: '#F8F9FA',
     flex: 1,
     alignItems: 'center',

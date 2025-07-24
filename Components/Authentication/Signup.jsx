@@ -80,7 +80,7 @@ const SignupScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff", // white background
+    backgroundColor: "#ffffff",
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
@@ -120,21 +120,7 @@ const styles = StyleSheet.create({
     gap:20,
     marginTop: 20,
   },
-  // socialButton: {
-  //   flexDirection: "row",
-  //   alignItems: "center",
-  //   padding: 12,
-  //   borderRadius: 8,
-  //   backgroundColor: "#f1f1f1",
-  //   marginVertical: 8,
-  //   justifyContent: "center",
-  // },
-  // socialButtonText: {
-  //   fontSize: 16,
-  //   fontWeight: "600",
-  //   color: "#333",
-  //   marginLeft: 10,
-  // },
+  
   icon: {
     marginRight: 8,
   },

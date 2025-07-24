@@ -6,13 +6,13 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/MaterialIcons";
-
+// splashscreens //
 import SplashScreen from "./Components/SplashScreens/SplashScreen";
 import SplashScreen1 from "./Components/SplashScreens/SplashScreen1";
 import SplashScreen2 from "./Components/SplashScreens/SplashScreen2";
 import SplashScreen3 from "./Components/SplashScreens/SplashScreen3";
 import SplashScreen4 from "./Components/SplashScreens/SplashScreen4";
-
+// Authentications Screens //
 import SignupScreen from "./Components/Authentication/Signup";
 import LoginScreen from "./Components/Authentication/Login";
 
@@ -23,7 +23,6 @@ import PicFeatureDetailScreen from "./Components/AI_PicsFeatures_Screen/AIPics_F
 
 import Videoscreen from "./Components/VideosScreen/Videoscreen";
 
-// import UserDetailsScreen from "./Components/Cart/UserDetailsScreen";
 import UserScreen from "./Components/User/UserScreen";
 import AccountDetailScreen from "./Components/User/AccountDetailScreen";
 import CustomerSupportScreen from "./Components/User/CustomerSupportScreen";
@@ -48,9 +47,6 @@ const MainLayout = ({ navigation, children, currentScreen }) => {
         const response = await fetch(`${API_BASE_URL}/content/logo_image`);
         const data = await response.json();
         setLogo(data.image_url);
-        // if (data.length > 0) {
-        //   setLogo(data[0].image_url);
-        // }
       } catch (error) {
         console.error("Error fetching logo:", error);
       }
@@ -263,7 +259,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: "white",
     paddingTop: 20,
-    paddingBottom:10,
+    paddingBottom: 10,
     paddingHorizontal: 10,
     borderColor: 'black',
     // paddingHorizontal: 10,
@@ -271,19 +267,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-
   headerItem: {
     // flex: 1,
     // alignItems: "center",
     // justifyContent: "center",
   },
-
   logo: {
     width: 70,
     height: 70,
     // resizeMode: "contain",
   },
-
   appTitle: {
     fontSize: 24,
     // fontFamily:'sans-sarif condensed',
@@ -293,8 +286,8 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     textAlign: 'center',
   },
-  belliconmaincontainer:{paddingRight:15},
-  belliconContainer:{padding:7,backgroundColor:'#8b3dff',borderRadius:50,},
+  belliconmaincontainer: { paddingRight: 15 },
+  belliconContainer: { padding: 7, backgroundColor: '#8b3dff', borderRadius: 50, },
   searchText: { flex: 1, color: "#555" },
   searchIcon: { marginLeft: 5 },
   body: { flex: 1, padding: 0 },

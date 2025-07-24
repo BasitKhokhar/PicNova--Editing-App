@@ -7,7 +7,7 @@ function Loader() {
   return (
      <View style={styles.container}>
       <LottieView
-        source={require('../../assets/loading.json')} // Replace with your own file
+        source={require('../../assets/loading.json')} 
         autoPlay
         loop
         style={{ width: 150, height: 150 }}
