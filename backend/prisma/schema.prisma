@@ -60,6 +60,16 @@ model picsaisubfeatures {
   @@index([feature_id], map: "feature_id")
 }
 
+model videos {
+  id           Int      @id @default(autoincrement())
+  user_id      Int
+  url          String
+  model_used   String
+  prompt_used  String?
+  created_at   DateTime @default(now())
+}
+
+
 model sliderimages {
   id              Int    @id @default(autoincrement())
   sliderimage_url String @db.VarChar(255)

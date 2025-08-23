@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { useTheme } from '../context/ThemeContext';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as ImagePicker from 'expo-image-picker';
 import { LinearGradient } from 'expo-linear-gradient';
 import EnhanceImageModal from '../Homescreen/EnhanceModel';
 
 const RemoveBGGallerySelction = () => {
+  const { theme } = useTheme();
   const [modeldetail, setModedetail] = useState(
     'lucataco/remove-bg:95fcc2a26d3899cd6c2691c900465aaeff466285a65c14638cc5f36f34befaf1'
   );
@@ -41,7 +43,7 @@ const RemoveBGGallerySelction = () => {
         >
           <Icon name="layers-clear" size={30} color="#fff" />
         </LinearGradient>
-        <Text style={styles.featureLabel}>Remove Bg</Text>
+        <Text style={[styles.featureLabel, { color: theme.text }]}>Remove Bg</Text>
       </TouchableOpacity>
 
       <EnhanceImageModal
@@ -56,7 +58,7 @@ const RemoveBGGallerySelction = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F8F9FA',
+    // backgroundColor: '#F8F9FA',
     flex: 1,
   },
   featureButton: {

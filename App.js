@@ -1,9 +1,12 @@
+import { ThemeProvider } from "./Components/context/ThemeContext";
+import { useTheme } from "./Components/context/ThemeContext";
 import React, { useState, useEffect } from "react";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/MaterialIcons";
 // splashscreens //
@@ -17,7 +20,7 @@ import SignupScreen from "./Components/Authentication/Signup";
 import LoginScreen from "./Components/Authentication/Login";
 
 import HomeScreen from "./Components/Home";
-
+import AllNotifications from "./Components/Notifications/AllNotifications";
 import AIPicsFeatureList from "./Components/AI_PicsFeatures_Screen/AIPics_Features";
 import PicFeatureDetailScreen from "./Components/AI_PicsFeatures_Screen/AIPics_Featuredetail";
 
@@ -39,6 +42,7 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const MainLayout = ({ navigation, children, currentScreen }) => {
+  const { theme } = useTheme();
   const [logo, setLogo] = useState(null);
 
   useEffect(() => {
@@ -55,7 +59,7 @@ const MainLayout = ({ navigation, children, currentScreen }) => {
   }, []);
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <View style={[styles.header, { backgroundColor: theme.background }]}>
         <View style={styles.headerItem}>
           {logo && <Image source={{ uri: logo }} style={styles.logo} />}
         </View>
@@ -65,7 +69,7 @@ const MainLayout = ({ navigation, children, currentScreen }) => {
         </View>
 
         <View style={styles.headerItem}>
-          <TouchableOpacity onPress={() => navigation.navigate("SearchScreen")} style={styles.belliconmaincontainer}>
+          <TouchableOpacity onPress={() => navigation.navigate("AllNotifications")} style={styles.belliconmaincontainer}>
             <View style={styles.belliconContainer}>
               <Icon name="notifications" size={20} color="white" />
             </View>
@@ -75,7 +79,7 @@ const MainLayout = ({ navigation, children, currentScreen }) => {
       </View>
 
       <View style={styles.body}>{children}</View>
-      <View style={styles.footer}>
+      <View style={[styles.footer, { backgroundColor: theme.background }]}>
         {[
           { name: "Home", icon: "home" },
           { name: "AI Photo", icon: "photo-camera" },
@@ -92,11 +96,11 @@ const MainLayout = ({ navigation, children, currentScreen }) => {
               size={24}
               color={currentScreen === name ? "#8b3dff" : "gray"}
             />
-            {name === "Cart" > 0 && (
+            {/* {name === "Cart" > 0 && (
               <View style={styles.cartBadge}>
-                {/* <Text style={styles.cartCount}></Text> */}
+                <Text style={styles.cartCount}></Text>
               </View>
-            )}
+            )} */}
             <Text
               style={[
                 styles.footerText,
@@ -219,36 +223,43 @@ const App = () => {
   }
 
   return (
-    <StripeProvider
-      publishableKey={stripeKey}
-      merchantDisplayName="Basit Sanitary App"
-    >
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={userId ? "Main" : "Login"}>
-          <Stack.Screen name="Signup" component={SignupScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Login" options={{ headerShown: false }}>
-            {(props) => <LoginScreen {...props} setUserId={setUserId} />}
-          </Stack.Screen>
-          <Stack.Screen name="Main" options={{ headerShown: false }}>
-            {(props) => <BottomTabs {...props} />}
-          </Stack.Screen>
-          <Stack.Screen name="AIpicsfeatures" component={AIPicsFeatureList} options={{ title: "AI Pics Features" }} />
-          <Stack.Screen name="AIpicsfeaturedetail" component={PicFeatureDetailScreen} options={{ title: "AI Pics Features Detail" }} />
+    <GestureHandlerRootView style={{ flex: 1 }}>
 
-          <Stack.Screen name="videosfeatures" component={Videoscreen} options={{ title: "Videos Features" }} />
 
-          <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Profile" component={UserScreen} options={{ title: "Profile" }} />
-          {/* <Stack.Screen name="UserDetailsScreen" component={UserDetailsScreen} /> */}
-          <Stack.Screen name="User" component={UserScreen} />
-          <Stack.Screen name="AccountDetail" component={AccountDetailScreen} />
-          <Stack.Screen name="CustomerSupport" component={CustomerSupportScreen} />
-          <Stack.Screen name="faq" component={FAQ} />
-          {/* <Stack.Screen name="StripePayment" component={StripePayment} /> */}
-          <Stack.Screen name="Logout" component={LogoutScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </StripeProvider>
+      <ThemeProvider>
+        <StripeProvider
+          publishableKey={stripeKey}
+          merchantDisplayName="Basit Sanitary App"
+        >
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName={userId ? "Main" : "Login"}>
+              <Stack.Screen name="Signup" component={SignupScreen} options={{ headerShown: false }} />
+              <Stack.Screen name="Login" options={{ headerShown: false }}>
+                {(props) => <LoginScreen {...props} setUserId={setUserId} />}
+              </Stack.Screen>
+              <Stack.Screen name="Main" options={{ headerShown: false }}>
+                {(props) => <BottomTabs {...props} />}
+              </Stack.Screen>
+              <Stack.Screen name="AllNotifications" component={AllNotifications} />
+              <Stack.Screen name="AIpicsfeatures" component={AIPicsFeatureList} options={{ title: "AI Pics Features" }} />
+              <Stack.Screen name="AIpicsfeaturedetail" component={PicFeatureDetailScreen} options={{ title: "AI Pics Features Detail" }} />
+
+              <Stack.Screen name="videosfeatures" component={Videoscreen} options={{ title: "Videos Features" }} />
+
+              <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
+              <Stack.Screen name="Profile" component={UserScreen} options={{ title: "Profile" }} />
+              {/* <Stack.Screen name="UserDetailsScreen" component={UserDetailsScreen} /> */}
+              <Stack.Screen name="User" component={UserScreen} />
+              <Stack.Screen name="AccountDetail" component={AccountDetailScreen} />
+              <Stack.Screen name="CustomerSupport" component={CustomerSupportScreen} />
+              <Stack.Screen name="faq" component={FAQ} />
+              {/* <Stack.Screen name="StripePayment" component={StripePayment} /> */}
+              <Stack.Screen name="Logout" component={LogoutScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </StripeProvider>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 };
 
@@ -262,15 +273,11 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingHorizontal: 10,
     borderColor: 'black',
-    // paddingHorizontal: 10,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
   headerItem: {
-    // flex: 1,
-    // alignItems: "center",
-    // justifyContent: "center",
   },
   logo: {
     width: 70,
@@ -284,7 +291,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#8b3dff',
     letterSpacing: 1,
-    textAlign: 'center',
+    // textAlign: 'center',
   },
   belliconmaincontainer: { paddingRight: 15 },
   belliconContainer: { padding: 7, backgroundColor: '#8b3dff', borderRadius: 50, },

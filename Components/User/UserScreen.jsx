@@ -4,13 +4,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from "@react-navigation/native";
 import SocialIconsRow from "./SocialIconsRow";
+import ThemeToggleButton from "../Buttons/ThemeToggleButton";
+import { useTheme } from "../context/ThemeContext";
 import Loader from "../Loader/Loader";
-import { colors } from "../theme/colors"; // Assuming you have a colors.js file for consistent styling
+import { colors } from "../theme/colors";
 import Constants from 'expo-constants';
 
 const API_BASE_URL = Constants.expoConfig.extra.API_BASE_URL;
 
 const UserScreen = () => {
+  const { theme } = useTheme();
   const [userData, setUserData] = useState(null);
   const [paymnetImgBtndata, setPaymnetImageBtnData] = useState(null);
 
@@ -67,9 +70,9 @@ const UserScreen = () => {
   console.log("userImage in UserScreen:", userImage);
 
   return (
-    <View style={styles.maincontainer}>
+    <View style={[styles.maincontainer, { backgroundColor: theme.primary }]}>
       <ScrollView
-        contentContainerStyle={styles.container}
+        contentContainerStyle={[styles.container, { backgroundColor: theme.background }]}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
         }
@@ -99,7 +102,7 @@ const UserScreen = () => {
               </View>
               <View style={styles.headingscontianer}>
                 <Text style={styles.title}>{userData.name}</Text>
-                <Text style={styles.email}>{userData.email}</Text>
+                <Text style={[styles.email, { color: theme.text }]}>{userData.email}</Text>
               </View>
 
 
@@ -126,96 +129,85 @@ const UserScreen = () => {
               <Text style={styles.heading}>General</Text>
               <View style={styles.line} />
             </View>
-
+            {/* <View>
+              <ThemeToggleButton />
+            </View> */}
             <TouchableOpacity style={styles.section} onPress={() => navigation.navigate('AccountDetail', { userData })}>
               <View style={styles.leftContent}>
-                <Icon name="person" size={24} color="#555" style={styles.icon} />
-                <Text style={styles.sectionText}>Personal Info</Text>
+                <Icon name="person" size={24} color="#8b3dff" style={styles.icon} />
+                <Text style={[styles.sectionText, { color: theme.text }]}>Personal Info</Text>
               </View>
               <View><Icon name="chevron-right" size={24} color="#888" /></View>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.section} onPress={() => navigation.navigate('AccountDetail', { userData })}>
               <View style={styles.leftContent}>
-                <Icon name="person" size={24} color="#555" style={styles.icon} />
-                <Text style={styles.sectionText}>Payment methods</Text>
+                <Icon name="credit-card" size={24} color="#1e90ff" style={styles.icon} />
+                <Text style={[styles.sectionText, { color: theme.text }]}>Payment methods</Text>
               </View>
               <View><Icon name="chevron-right" size={24} color="#888" /></View>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.section} onPress={() => navigation.navigate('AccountDetail', { userData })}>
               <View style={styles.leftContent}>
-                <Icon name="person" size={24} color="#555" style={styles.icon} />
-                <Text style={styles.sectionText}>Security</Text>
+                <Icon name="security" size={24} color="#00b894" style={styles.icon} />
+                <Text style={[styles.sectionText, { color: theme.text }]}>Security</Text>
               </View>
               <View><Icon name="chevron-right" size={24} color="#888" /></View>
             </TouchableOpacity>
+
+            <View style={styles.section}>
+              <View style={styles.leftContent}>
+                <Icon name="brightness-6" size={24} color="#f39c12" style={styles.icon} />
+                <Text style={[styles.sectionText, { color: theme.text }]}>Change Theme</Text>
+              </View>
+              <View><ThemeToggleButton /></View>
+            </View>
+
             <View style={styles.sectionHeader}>
               <Text style={styles.heading}>About</Text>
               <View style={styles.line} />
             </View>
+
             <TouchableOpacity style={styles.section} onPress={() => navigation.navigate('about', { userData })}>
               <View style={styles.leftContent}>
-                <Icon name="info" size={24} color="#555" style={styles.icon} />
-                <Text style={styles.sectionText}>About PicNova-AI</Text>
+                <Icon name="info" size={24} color="#3498db" style={styles.icon} />
+                <Text style={[styles.sectionText, { color: theme.text }]}>About PicNova-AI</Text>
               </View>
               <View><Icon name="chevron-right" size={24} color="#888" /></View>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.section} onPress={() => navigation.navigate('CustomerSupport', { userData })}>
               <View style={styles.leftContent}>
-                <Icon name="support-agent" size={24} color="#555" style={styles.icon} />
-                <Text style={styles.sectionText}>Customer Support</Text>
+                <Icon name="support-agent" size={24} color="#9b59b6" style={styles.icon} />
+                <Text style={[styles.sectionText, { color: theme.text }]}>Customer Support</Text>
               </View>
               <View><Icon name="chevron-right" size={24} color="#888" /></View>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.section} onPress={() => navigation.navigate('CustomerSupport', { userData })}>
               <View style={styles.leftContent}>
-                <Icon name="support-agent" size={24} color="#555" style={styles.icon} />
-                <Text style={styles.sectionText}>Privacy Policy</Text>
+                <Icon name="shield" size={24} color="#e67e22" style={styles.icon} />
+                <Text style={[styles.sectionText, { color: theme.text }]}>Privacy Policy</Text>
               </View>
               <View><Icon name="chevron-right" size={24} color="#888" /></View>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.section} onPress={() => navigation.navigate('faq', { userData })}>
               <View style={styles.leftContent}>
-                <Icon name="question-answer" size={24} color="#555" style={styles.icon} />
-                <Text style={styles.sectionText}>FAQs</Text>
+                <Icon name="question-answer" size={24} color="#16a085" style={styles.icon} />
+                <Text style={[styles.sectionText, { color: theme.text }]}>FAQs</Text>
               </View>
               <View><Icon name="chevron-right" size={24} color="#888" /></View>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.section} onPress={() => navigation.navigate('Logout', { userData })}>
               <View style={styles.leftContent}>
-                <Icon name="logout" size={24} color="red" style={styles.icon} />
-                <Text style={styles.logoutText} color="red">Logout </Text>
+                <Icon name="logout" size={24} color="#e74c3c" style={styles.icon} />
+                <Text style={[styles.logoutText, { color: "#e74c3c" }]}>Logout</Text>
               </View>
-              <View><Icon name="chevron-right" size={24} color="red" /></View>
+              <View><Icon name="chevron-right" size={24} color="#e74c3c" /></View>
             </TouchableOpacity>
-
-
-
-
-
-            {/* <TouchableOpacity style={styles.section} onPress={() => navigation.navigate("PaymentScreen", { userData })}>
-              <Text style={styles.sectionText}>Account Detail</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.section} onPress={() => navigation.navigate("AccountDetail", { userData })}>
-              <Text style={styles.sectionText}>Account Detail</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.section} onPress={() => navigation.navigate("CustomerSupport")}>
-              <Text style={styles.sectionText}>Customer Support</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.section} onPress={() => navigation.navigate("faq")}>
-              <Text style={styles.sectionText}>FAQs</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.section} onPress={() => navigation.navigate("about")}>
-              <Text style={styles.sectionText}>About</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.section, styles.logout]} onPress={() => navigation.navigate("Logout")}>
-              <Text style={styles.sectionText}>Logout</Text>
-            </TouchableOpacity> */}
 
             {/* <View style={styles.iconscontainer}>
             <SocialIconsRow />
@@ -232,14 +224,15 @@ const UserScreen = () => {
 
 const styles = StyleSheet.create({
   maincontainer: {
-    backgroundColor: colors.primary,
+    color: colors.primary,
     paddingTop: 50,
+    paddingHorizontal: 16,
     width: '100%',
     height: '100%',
   },
   container: {
     flex: 1,
-    backgroundColor: colors.background,
+    color: colors.background,
     padding: 16,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30
@@ -251,7 +244,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 10,
-    backgroundColor: '#fff',
+    color: '#fff',
   },
   profileContainer: {
     width: "100%",
@@ -276,7 +269,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 2,
     borderColor: colors.primary,
-    backgroundColor: "#fff"
+    color: "#fff"
   },
   header: {
     flexDirection: "row",
@@ -307,7 +300,7 @@ const styles = StyleSheet.create({
     height: 120,
     borderRadius: 16,
     overflow: 'hidden',
-    backgroundColor: colors.background,
+    color: colors.background,
     elevation: 4,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -335,7 +328,7 @@ const styles = StyleSheet.create({
   line: {
     flex: 1,
     height: 2,
-    backgroundColor: colors.primary,
+    color: colors.primary,
   },
   section: {
     display: 'flex',

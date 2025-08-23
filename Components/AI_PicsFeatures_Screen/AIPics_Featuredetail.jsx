@@ -9,6 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import Loader from '../Loader/Loader';
+import { useTheme } from '../context/ThemeContext';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import EnhanceImageModal from '../Homescreen/EnhanceModel';
@@ -16,6 +17,7 @@ import EnhanceImageModal from '../Homescreen/EnhanceModel';
 const API_BASE_URL = Constants.expoConfig.extra.API_BASE_URL;
 
 const PicFeatureDetailScreen = ({ route }) => {
+  const { theme } = useTheme();
   const { feature } = route.params;
   const [sampleImages, setSampleImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState({ uri: '', prompt: '' });
@@ -69,7 +71,7 @@ const PicFeatureDetailScreen = ({ route }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       <FlatList
         data={sampleImages}
         renderItem={renderSampleImage}
@@ -80,9 +82,9 @@ const PicFeatureDetailScreen = ({ route }) => {
         ListHeaderComponent={
           <>
             <Image source={{ uri: feature.image_url }} style={styles.headerImage} />
-            <Text style={styles.title}>{feature.name}</Text>
+            <Text style={[styles.title, { color: theme.text }]}>{feature.name}</Text>
             <Text style={styles.description}>{feature.description}</Text>
-            <Text style={styles.subheading}>Tap a style below to edit your image</Text>
+            <Text style={[styles.subheading, { color: theme.text }]}>Tap a style below to edit your image</Text>
           </>
         }
       />

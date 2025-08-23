@@ -9,10 +9,12 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useTheme } from '../context/ThemeContext';
 import Loader from '../Loader/Loader';
 import Constants from 'expo-constants';
 const API_BASE_URL = Constants.expoConfig.extra.API_BASE_URL;
 const AIPicsFeatureList = () => {
+  const { theme } = useTheme();
   const [features, setFeatures] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
@@ -35,7 +37,7 @@ const AIPicsFeatureList = () => {
 
   const renderFeature = ({ item }) => (
     <TouchableOpacity
-      style={styles.featureContainer}
+      style={[styles.featureContainer, { backgroundColor: theme.featuresboxbg }]}
       onPress={() =>
         navigation.navigate('AIpicsfeaturedetail', {
           feature: item,
@@ -44,8 +46,8 @@ const AIPicsFeatureList = () => {
     >
       <Image source={{ uri: item.image_url }} style={styles.featureImage} />
       <View style={styles.textContainer}>
-        <Text style={styles.featureTitle}>{item.name}</Text>
-        <Text style={styles.featureDescription}>{item.description}</Text>
+        <Text style={[styles.featureTitle, { color: theme.text }]}>{item.name}</Text>
+        <Text style={[styles.featureDescription, { color: theme.text }]}>{item.description}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -64,7 +66,7 @@ const AIPicsFeatureList = () => {
       data={features}
       keyExtractor={(item) => item.id.toString()}
       renderItem={renderFeature}
-      contentContainerStyle={styles.listContainer}
+      contentContainerStyle={[styles.listContainer, { backgroundColor: theme.background }]}
       showsVerticalScrollIndicator={false}
     />
   );
@@ -73,7 +75,7 @@ const AIPicsFeatureList = () => {
 const styles = StyleSheet.create({
   listContainer: {
     padding: 16,
-    backgroundColor: '#f8f8f8',
+    // backgroundColor: '#f8f8f8',
   },
   featureContainer: {
     flexDirection: 'row',

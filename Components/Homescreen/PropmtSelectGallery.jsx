@@ -1,12 +1,14 @@
 
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { useTheme } from '../context/ThemeContext';
 import * as ImagePicker from 'expo-image-picker';
 import { LinearGradient } from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import PromptEnhanceModal from './PromptModel';
 
 const PromptSelectGallery = () => {
+  const { theme } = useTheme();
   const [modeldetail, setModedetail] = useState('minimax/image-01');
   const [selectedImage, setSelectedImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -40,7 +42,7 @@ const PromptSelectGallery = () => {
         >
           <Icon name="edit-note" size={30} color="#fff" />
         </LinearGradient>
-        <Text style={styles.featureLabel}>Prompt Editing</Text>
+        <Text style={[styles.featureLabel,{color: theme.text}]}>Prompt Editing</Text>
       </TouchableOpacity>
 
       <PromptEnhanceModal
@@ -55,7 +57,7 @@ const PromptSelectGallery = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F8F9FA',
+    // backgroundColor: '#F8F9FA',
     flex: 1,
     alignItems: 'center',
   },

@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 15,
     marginBottom: 10,
-    backgroundColor: "#F8F9FA",
+    // backgroundColor: "#F8F9FA",
   },
   loader: {
     height: 180,

@@ -18,7 +18,8 @@ import * as MediaLibrary from 'expo-media-library';
 
 const API_BASE_URL = Constants.expoConfig.extra.API_BASE_URL;
 
-const PromptInputComponent = ({ defaultModel }) => {
+const VideoPromptInputComponent = () => {
+    defaultModel='pixverse / pixverse-v4.5';
   const { theme } = useTheme();
   const [prompt, setPrompt] = useState('');
   const [modelUsed, setModelUsed] = useState(defaultModel);
@@ -39,7 +40,7 @@ const PromptInputComponent = ({ defaultModel }) => {
         return;
       }
 
-      const response = await fetch(`${API_BASE_URL}/replicate/enhance`, {
+      const response = await fetch(`${API_BASE_URL}/videos/enhancevideos`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -99,7 +100,7 @@ const PromptInputComponent = ({ defaultModel }) => {
       {!imageUrl && (
         <View style={styles.container}>
           <TextInput
-            placeholder="Write your prompt..."
+            placeholder="Write prompt to create video"
             placeholderTextColor="#999"
             style={styles.input}
             value={prompt}
@@ -200,4 +201,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PromptInputComponent;
+export default VideoPromptInputComponent;

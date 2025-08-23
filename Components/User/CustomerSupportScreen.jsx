@@ -1,18 +1,20 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { useTheme } from "../context/ThemeContext";
 import { LinearGradient } from "expo-linear-gradient";
 import Constants from 'expo-constants';
 const API_BASE_URL = Constants.expoConfig.extra.API_BASE_URL;
 const CustomerSupportScreen = () => {
+  const { theme } = useTheme();
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Customer Support</Text>
-      <Text style={styles.text}>Get help and support anytime. Whether you have questions, need technical assistance, or require urgent help, our team is here for you 24/7. Reach out via chat, call, or email—we’re always ready to assist!</Text>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <Text style={[styles.title, { color: theme.text }]}>Customer Support</Text>
+      <Text style={[styles.text, { color: theme.text }]}>Get help and support anytime. Whether you have questions, need technical assistance, or require urgent help, our team is here for you 24/7. Reach out via chat, call, or email—we’re always ready to assist!</Text>
       <View style={styles.data}>
         <LinearGradient
-          colors={["#2B1B17", "#3E2723", "#4A2C2A"]}
-          start={{ x: 0, y: 1 }}
-          end={{ x: 0, y: 0 }}
+          colors={['#8b3dff', '#a86bff']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
           style={styles.containergradient}
         >
           <View style={styles.emailbox}>
@@ -22,9 +24,9 @@ const CustomerSupportScreen = () => {
           </View>
         </LinearGradient>
         <LinearGradient
-          colors={["#0F0F0F", "#1A1A1D", "#222831"]}
-          start={{ x: 0, y: 1 }}
-          end={{ x: 0, y: 0 }}
+          colors={['#8b3dff', '#a86bff']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
           style={styles.containergradient}
         >
           <View style={styles.emailbox}>
@@ -47,18 +49,18 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#f5f5f5", padding: 20 },
   title: { fontSize: 24, fontWeight: "bold", marginBottom: 20, color: "#333", textAlign: 'center' },
   data: { display: 'flex', flexDirection: 'column', rowGap: 20 },
-  text: { fontSize: 16, marginVertical: 5, color: "#555",textAlign:'justify' },
+  text: { fontSize: 16, marginVertical: 5, color: "#555", textAlign: 'justify' },
   headings: { fontSize: 18, fontWeight: "bold", color: "white" },
   headingtext: { fontSize: 16, fontWeight: "400", color: "white" },
   containergradient: {
     alignItems: "flex-start",
     width: "100%",
-    gap:50,
-    paddingHorizontal:10,
-    paddingVertical:20,
-    borderRadius:10
+    gap: 50,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+    borderRadius: 10
   },
-  emailbox: { display: 'flex', flexDirection: 'column' ,rowGap:10},
+  emailbox: { display: 'flex', flexDirection: 'column', rowGap: 10 },
 });
 
 export default CustomerSupportScreen;

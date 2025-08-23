@@ -1,12 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useTheme } from '../context/ThemeContext';
 import SelectImageGallery from './SelectImageGallery';
 import PromptSelectGallery from './PropmtSelectGallery';
 import RemoveBGGallerySelction from '../Models/RemoveBGGallerySelction';
 const FeaturedGrid = () => {
+  const { theme } = useTheme();
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Featured</Text>
+    <View style={[styles.container,{backgroundColor: theme.background}]}>
+      <Text style={[styles.heading,{color: theme.text}]}>Featured</Text>
       <View style={styles.grid}>
         <View style={styles.column}><SelectImageGallery /></View>
         <View style={styles.column}><RemoveBGGallerySelction /></View>

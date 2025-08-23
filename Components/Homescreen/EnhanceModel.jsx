@@ -14,7 +14,9 @@ import { app } from '../firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import ImageCompareSlider from '../Sliders/ImagesComparisonslider';
+// import ImageCompareSlider from '../Sliders/ImagesComparisonslider';
+import { BeforeAfterSlider } from 'expo-image-compare';
+
 import Loader from '../Loader/Loader';
 
 const API_BASE_URL = Constants.expoConfig.extra.API_BASE_URL;
@@ -53,11 +55,11 @@ const EnhanceImageModal = ({ visible, onClose, selectedImage, modeldetails, prom
       setLoading(false);
     }
   };
-const resetModal = () => {
-  setEnhancedImage(null);
-  setLoading(false);
-  onClose(); 
-};
+  const resetModal = () => {
+    setEnhancedImage(null);
+    setLoading(false);
+    onClose();
+  };
   const downloadEnhancedImage = async () => {
     if (!enhancedImage) return;
     const fileUri = FileSystem.documentDirectory + 'enhanced.jpg';
@@ -77,9 +79,10 @@ const resetModal = () => {
           {/* Display Enhanced Image Slider or Original Image */}
           {selectedImage?.uri && enhancedImage ? (
             <View style={styles.sliderWrapper}>
-              <ImageCompareSlider
-                originalImageUri={selectedImage.uri}
-                enhancedImageUri={enhancedImage}
+              <BeforeAfterSlider
+                beforeImage={{ uri: selectedImage.uri }}
+                afterImage={{ uri: enhancedImage }}
+                height={300}
               />
             </View>
           ) : selectedImage?.uri ? (

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
+import { useTheme } from "./context/ThemeContext";
 import ImageSlider from "./Sliders/Slider";
 import UserNameDisplay from "./User/UserNameDisplay";
 // import UserGallery from "./Homescreen/SelectUsergallery";
@@ -13,8 +14,9 @@ import SelectImageGallery from "./Homescreen/SelectImageGallery";
 import PromptSelectGallery from "./Homescreen/PropmtSelectGallery";
 import EnhancedImageGallery from "./Homescreen/EnhancedImagesGallery";
 import PromptInputComponent from "./Homescreen/PromptinputComponent";
-import BrandSlider from "./Sliders/BrandSlider";
-import CustomerSupportoptions from "./User/CustomerSupportoptions";
+// import BrandSlider from "./Sliders/BrandSlider";
+// import CustomerSupportoptions from "./User/CustomerSupportoptions";
+// import GalleryScreen from "./Sliders/samplegallery";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loader from "./Loader/Loader";
 import Constants from "expo-constants";
@@ -22,6 +24,7 @@ import FeaturedGrid from "./Homescreen/Featuredgrid";
 const API_BASE_URL = Constants.expoConfig.extra.API_BASE_URL;
 
 const HomeScreen = ({ navigation }) => {
+  const { theme } = useTheme();
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [homeData, setHomeData] = useState({
@@ -81,21 +84,22 @@ const HomeScreen = ({ navigation }) => {
       handleRefresh();
     }
   };
-  console.log("homedata", homeData)
+  // console.log("homedata", homeData)
   if (loading) {
     return (
-      <View style={styles.loaderContainer}>
+      <View style={[styles.loaderContainer, { backgroundColor: theme.background }]}>
         <Loader />
       </View>
     );
   }
-  console.log("enahanced gallery data in homescreen", homeData.EnhancedGalleryData)
+  // console.log("enahanced gallery data in homescreen", homeData.EnhancedGalleryData)
   const sections = [
     // { key: "user", render: () => <UserNameDisplay /> },
     { key: "slider", render: () => <ImageSlider sliderData={homeData.sliderData} /> },
     { key: "Featuredgrid", render: () => <FeaturedGrid /> },
     { key: "Featuredgridinput", render: () => <PromptInputComponent defaultModel="prunaai/hidream-l1-fast:91752cc0b07ccd5976f1db2b6b7f10296ac12d6cb2ba87056f79b17ffacca5f5" /> },
     // { key: "PropmtSelctedusergallery", render: () => <PromptSelectGallery/> },
+    //  { key: "Featuredgridss", render: () => <GalleryScreen /> },
     { key: "Enhancedusergallery", render: () => <EnhancedImageGallery EnhancedGallerydata={homeData.EnhancedGalleryData} /> },
 
   ];
@@ -105,7 +109,7 @@ const HomeScreen = ({ navigation }) => {
       data={sections}
       keyExtractor={(item) => item.key}
       renderItem={({ item }) => <View>{item.render()}</View>}
-      contentContainerStyle={styles.listContainer}
+      contentContainerStyle={[styles.listContainer, { backgroundColor: theme.background }]}
       showsVerticalScrollIndicator={false}
       initialNumToRender={2}
       windowSize={5}

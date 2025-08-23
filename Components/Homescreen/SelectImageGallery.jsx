@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { useTheme } from '../context/ThemeContext';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as ImagePicker from 'expo-image-picker';
 import { LinearGradient } from 'expo-linear-gradient';
 import EnhanceImageModal from './EnhanceModel';
 
 const SelectImageGallery = () => {
+  const { theme } = useTheme();
   const [modeldetail, setModedetail] = useState(
     'sczhou/codeformer:cc4956dd26fa5a7185d5660cc9100fab1b8070a1d1654a8bb5eb6d443b020bb2'
   );
@@ -41,7 +43,7 @@ const SelectImageGallery = () => {
         >
           <Icon name="photo-library" size={30} color="#fff" />
         </LinearGradient>
-        <Text style={styles.featureLabel}>Enhance Image</Text>
+        <Text style={[styles.featureLabel,{color: theme.text}]}>Enhance Image</Text>
       </TouchableOpacity>
 
       <EnhanceImageModal
@@ -56,7 +58,7 @@ const SelectImageGallery = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F8F9FA',
+    // backgroundColor: '#F8F9FA',
     flex: 1,
   },
   featureButton: {
