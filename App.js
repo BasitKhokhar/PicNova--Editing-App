@@ -1,5 +1,6 @@
-import { ThemeProvider } from "./Components/context/ThemeContext";
-import { useTheme } from "./Components/context/ThemeContext";
+// import { ThemeProvider } from "./Components/context/ThemeContext";
+// import { useTheme } from "./Components/context/ThemeContext";
+import { ThemeProvider, useTheme } from "./src/Context/ThemeContext";
 import React, { useState, useEffect } from "react";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
@@ -10,31 +11,31 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/MaterialIcons";
 // splashscreens //
-import SplashScreen from "./Components/SplashScreens/SplashScreen";
-import SplashScreen1 from "./Components/SplashScreens/SplashScreen1";
-import SplashScreen2 from "./Components/SplashScreens/SplashScreen2";
-import SplashScreen3 from "./Components/SplashScreens/SplashScreen3";
-import SplashScreen4 from "./Components/SplashScreens/SplashScreen4";
+import SplashScreen from "./src/Screens/SplashScreens/SplashScreen";
+import SplashScreen1 from "./src/Screens/SplashScreens/SplashScreen1";
+import SplashScreen2 from "./src/Screens/SplashScreens/SplashScreen2";
+import SplashScreen3 from "./src/Screens/SplashScreens/SplashScreen3";
+import SplashScreen4 from "./src/Screens/SplashScreens/SplashScreen4";
 // Authentications Screens //
-import SignupScreen from "./Components/Authentication/Signup";
-import LoginScreen from "./Components/Authentication/Login";
+import SignupScreen from "./src/Components/Authentication/Signup";
+import LoginScreen from "./src/Components/Authentication/Login";
 
-import HomeScreen from "./Components/Home";
-import AllNotifications from "./Components/Notifications/AllNotifications";
-import AIPicsFeatureList from "./Components/AI_PicsFeatures_Screen/AIPics_Features";
-import PicFeatureDetailScreen from "./Components/AI_PicsFeatures_Screen/AIPics_Featuredetail";
+import HomeScreen from "./src/Screens/HomeScreen/HomeScreen";
 
-import Videoscreen from "./Components/VideosScreen/Videoscreen";
+import AllNotifications from "./src/Screens/NotificationsScreen/AllNotifications";
+import AIPicsFeatureList from "./src/Screens/AI_PicsFeatures_Screen/AIPics_Features";
+import PicFeatureDetailScreen from "./src/Screens/AI_PicsFeatures_Screen/AIPics_Featuredetail";
 
-import UserScreen from "./Components/User/UserScreen";
-import AccountDetailScreen from "./Components/User/AccountDetailScreen";
-import CustomerSupportScreen from "./Components/User/CustomerSupportScreen";
-import FAQ from "./Components/User/FAQ";
+import Videoscreen from "./src/Screens/VideosScreen/Videoscreen";
+
+import UserScreen from "./src/Screens/UserScreen/UserScreen";
+import AccountDetailScreen from "./src/Screens/UserScreen/AccountDetailScreen";
+import CustomerSupportScreen from "./src/Screens/UserScreen/CustomerSupportScreen";
+import FAQ from "./src/Screens/UserScreen/FAQ";
 // import StripePayment from "./Components/Cart/StripePayment";
-import LogoutScreen from "./Components/User/LogoutScreen";
+import LogoutScreen from "./src/Screens/UserScreen/LogoutScreen";
 import 'react-native-gesture-handler';
 import * as SecureStore from 'expo-secure-store';
-
 import Constants from 'expo-constants';
 const API_BASE_URL = Constants.expoConfig.extra.API_BASE_URL;
 const stripeKey = Constants.expoConfig.extra.stripePublishableKey;
@@ -162,12 +163,33 @@ const App = () => {
   const [isSplash2Visible, setIsSplash2Visible] = useState(null);
   const [isSplash3Visible, setIsSplash3Visible] = useState(null);
   const [isSplash4Visible, setIsSplash4Visible] = useState(null);
+
+  //   useEffect(() => {
+  //   const clearAppDataOnce = async () => {
+  //     try {
+  //       await AsyncStorage.clear();
+  //       console.log("✅ AsyncStorage cleared");
+
+  //       await SecureStore.deleteItemAsync("jwt_token");
+  //       await SecureStore.deleteItemAsync("userId"); // add more keys if needed
+  //       console.log("✅ SecureStore cleared");
+
+  //       console.log("📦 Storage wiped — next start will force login");
+  //     } catch (error) {
+  //       console.error("❌ Error clearing app data:", error);
+  //     }
+  //   };
+
+  //   clearAppDataOnce();
+  // }, []);
+
+  
   useEffect(() => {
     const checkLogin = async () => {
       try {
         const token = await SecureStore.getItemAsync("jwt_token");
         const storedUserId = await AsyncStorage.getItem("userId");
-        console.log("userid in app.js is", storedUserId)
+        console.log("userid in app.js is", storedUserId,token)
         if (token && storedUserId) {
           setUserId(storedUserId);
           setIsSplash2Visible(false);

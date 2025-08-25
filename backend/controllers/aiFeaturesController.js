@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 // GET all AI Features
-const getAllFeatures = async (req, res) => {
+exports.getAllFeatures = async (req, res) => {
   try {
     const features = await prisma.picsaifeatures.findMany({
       orderBy: { created_at: 'desc' },
@@ -15,7 +15,7 @@ const getAllFeatures = async (req, res) => {
 };
 
 // GET Subfeatures by Feature ID
-const getSubfeaturesByFeatureId = async (req, res) => {
+exports.getSubfeaturesByFeatureId = async (req, res) => {
   const featureId = parseInt(req.params.featureId);
 
   if (isNaN(featureId)) {
@@ -34,7 +34,7 @@ const getSubfeaturesByFeatureId = async (req, res) => {
   }
 };
 
-module.exports = {
-  getAllFeatures,
-  getSubfeaturesByFeatureId,
-};
+// module.exports = {
+//   getAllFeatures,
+//   getSubfeaturesByFeatureId,
+// };

@@ -59,7 +59,8 @@
     "react-navigation": "^5.0.0",
     "react-redux": "^9.2.0",
     "replicate": "^1.0.1",
-    "stripe": "^17.7.0"
+    "stripe": "^17.7.0",
+    "tinycolor2": "^1.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
