@@ -7,6 +7,8 @@ const userRoutes = require('./routes/userRoutes');
 const imageRoutes = require('./routes/imageRoutes');
 const videosRoutes = require('./routes/videosRoutes');
 const replicateRoutes = require('./routes/replicateRoutes');
+const openrouterRoutes = require('./routes/replicateRoutes');
+
 const paymentRoutes = require('./routes/paymentRoutes');
 const contentRoutes = require('./routes/contentRoutes');
 const aiFeaturesRoutes = require('./routes/aiFeaturesRoutes');
@@ -22,6 +24,8 @@ app.use('/users', userRoutes);
 app.use('/images', imageRoutes);
 app.use('/videos', videosRoutes);
 app.use('/replicate', replicateRoutes);
+app.use('/openrouter', openrouterRoutes);
+
 app.use('/payments', paymentRoutes);
 app.use('/content', contentRoutes);
 app.use('/aipicsfeatures', aiFeaturesRoutes);

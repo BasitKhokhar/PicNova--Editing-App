@@ -164,24 +164,24 @@ const App = () => {
   const [isSplash3Visible, setIsSplash3Visible] = useState(null);
   const [isSplash4Visible, setIsSplash4Visible] = useState(null);
 
-  //   useEffect(() => {
-  //   const clearAppDataOnce = async () => {
-  //     try {
-  //       await AsyncStorage.clear();
-  //       console.log("✅ AsyncStorage cleared");
+    useEffect(() => {
+    const clearAppDataOnce = async () => {
+      try {
+        await AsyncStorage.clear();
+        console.log("✅ AsyncStorage cleared");
 
-  //       await SecureStore.deleteItemAsync("jwt_token");
-  //       await SecureStore.deleteItemAsync("userId"); // add more keys if needed
-  //       console.log("✅ SecureStore cleared");
+        await SecureStore.deleteItemAsync("jwt_token");
+        await SecureStore.deleteItemAsync("userId"); // add more keys if needed
+        console.log("✅ SecureStore cleared");
 
-  //       console.log("📦 Storage wiped — next start will force login");
-  //     } catch (error) {
-  //       console.error("❌ Error clearing app data:", error);
-  //     }
-  //   };
+        console.log("📦 Storage wiped — next start will force login");
+      } catch (error) {
+        console.error("❌ Error clearing app data:", error);
+      }
+    };
 
-  //   clearAppDataOnce();
-  // }, []);
+    clearAppDataOnce();
+  }, []);
 
   
   useEffect(() => {
