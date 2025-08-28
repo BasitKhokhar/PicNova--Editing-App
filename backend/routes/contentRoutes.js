@@ -18,9 +18,9 @@ const { getAllFaqs, getLogoImage, getSliderImages, getSocialIcons,getPaymentBtnI
 
 router.get('/faqs',verifyToken, getAllFaqs);
 router.get('/privacy-policy',verifyToken, getPrivacyPolicy);
-router.get('/about-game',verifyToken, getAboutApp);
+router.get('/about-App',verifyToken, getAboutApp);
 router.get('/logo_image', getLogoImage);
-router.get('/sliderimages', getSliderImages);
+router.get('/sliderimages',verifyToken, getSliderImages);
 router.get('/aboutme', verifyToken, getAboutMe);
 router.get('/missionvission', verifyToken, getMissionVision);
 

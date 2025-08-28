@@ -13,6 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useTheme } from '../../Context/ThemeContext';
 import Constants from 'expo-constants';
+import { apiFetch } from '../../apiFetch';
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 
@@ -40,7 +41,7 @@ const VideoPromptInputComponent = () => {
         return;
       }
 
-      const response = await fetch(`${API_BASE_URL}/videos/enhancevideos`, {
+      const response = await apiFetch(`/videos/enhancevideos`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

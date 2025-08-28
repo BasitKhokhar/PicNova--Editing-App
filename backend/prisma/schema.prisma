@@ -60,13 +60,40 @@ model picsaisubfeatures {
   @@index([feature_id], map: "feature_id")
 }
 
-model videos {
-  id           Int      @id @default(autoincrement())
-  user_id      Int
-  url          String
-  model_used   String
-  prompt_used  String?
-  created_at   DateTime @default(now())
+
+model videosaifeatures {
+  id                Int               @id @default(autoincrement())
+  name              String            @db.VarChar(100)
+  description       String            @db.Text
+  image_url         String            @db.Text
+  model_name        String            @db.VarChar(200)
+  created_at        DateTime          @default(now()) @db.Timestamp(0)
+}
+
+model originalvideos {
+  id          Int       @id @default(autoincrement())
+  user_id     Int
+  url         String    @db.Text
+  uploaded_at DateTime? @default(now()) @db.DateTime(0)
+  enhancedvideos enhancedvideos[]
+  users       users     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Restrict, map: "originalvideos_ibfk_1")
+
+  @@index([user_id], map: "originalvideos_user_id")
+}
+
+model enhancedvideos {
+  id              Int            @id @default(autoincrement())
+  user_id         Int
+  original_id     Int?
+  model_used      String         @db.VarChar(100)
+  url             String         @db.Text
+  enhanced_at     DateTime?      @default(now()) @db.DateTime(0)
+  prompt_used     String?        @db.Text
+  users           users          @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Restrict, map: "enhancedvideos_ibfk_1")
+  originalvideos  originalvideos? @relation(fields: [original_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "enhancedvideos_ibfk_2")
+
+  @@index([user_id], map: "enhancedvideos_user_id")
+  @@index([original_id], map: "enhancedvideos_original_id")
 }
 
 
@@ -98,6 +125,8 @@ model users {
   created_at DateTime @default(now()) @db.DateTime(0)
   enhancedimages   enhancedimages[]
   originalimages  originalimages[]
+   enhancedvideos   enhancedvideos[]   // ✅ add this
+  originalvideos   originalvideos[]   // ✅ add this
   userimages       userimages[]
 }
 

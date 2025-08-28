@@ -55,7 +55,7 @@ const generateAccessToken = (user) => {
   return jwt.sign(
     { userId: user.user_id }, // ✅ use user_id
     process.env.JWT_SECRET,
-    { expiresIn: "50m" } // short life
+    { expiresIn: "5m" } // short life
   );
 };
 

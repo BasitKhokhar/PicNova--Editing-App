@@ -12,6 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../Context/ThemeContext';
 import VideoPromptInputComponent from './VideoPromptinput';
 import Loader from '../../Components/Loader/Loader';
+import { apiFetch } from '../../apiFetch';
 import Constants from 'expo-constants';
 const API_BASE_URL = Constants.expoConfig.extra.API_BASE_URL;
 const Videoscreen = () => {
@@ -23,7 +24,7 @@ const Videoscreen = () => {
   useEffect(() => {
     const fetchFeatures = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/aipicsfeatures/ai_pics_Featureslist`);
+        const res = await apiFetch(`/aipicsfeatures/ai_pics_Featureslist`);
         const data = await res.json();
         setFeatures(data);
       } catch (error) {

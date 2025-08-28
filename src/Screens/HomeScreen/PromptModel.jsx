@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
+import { apiFetch } from '../../apiFetch';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from '../../firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -46,7 +47,7 @@ const PromptEnhanceModal = ({ visible, onClose, selectedImage, modeldetails }) =
       const uploadTask = await uploadBytesResumable(storageRef, blob);
       const originalUrl = await getDownloadURL(uploadTask.ref);
 
-      const replicateRes = await fetch(`${API_BASE_URL}/replicate/enhance`, {
+      const replicateRes = await apiFetch(`/replicate/enhance`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -67,7 +68,7 @@ const PromptEnhanceModal = ({ visible, onClose, selectedImage, modeldetails }) =
 
       setEnhancedImage(enhancedFirebaseUrl);
 
-      await fetch(`${API_BASE_URL}/store-enhanced`, {
+      await apiFetch(`/store-enhanced`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ imageUrl: enhancedFirebaseUrl }),
