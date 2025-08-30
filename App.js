@@ -10,6 +10,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import VideoGenerateScreen from "./src/Screens/VideosScreen/VideosgenerateScreen";
 // splashscreens //
 import SplashScreen from "./src/Screens/SplashScreens/SplashScreen";
 import SplashScreen1 from "./src/Screens/SplashScreens/SplashScreen1";
@@ -266,7 +267,7 @@ const App = () => {
               <Stack.Screen name="AIpicsfeatures" component={AIPicsFeatureList} options={{ title: "AI Pics Features" }} />
               <Stack.Screen name="AIpicsfeaturedetail" component={PicFeatureDetailScreen} options={{ title: "AI Pics Features Detail" }} />
 
-              <Stack.Screen name="videosfeatures" component={Videoscreen} options={{ title: "Videos Features" }} />
+              <Stack.Screen name="VideoGenerateScreen" component={VideoGenerateScreen} options={{ title: "Videos Features" }} />
 
               <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
               <Stack.Screen name="Profile" component={UserScreen} options={{ title: "Profile" }} />
